@@ -1,0 +1,229 @@
+{% extends "admin/admin_base_template.html" %}
+{% block title %}Edit news{% endblock %}
+{% block main %}
+    <div class="content_wrapper mt-4">
+        <div class="container">
+            <div class="form_wrapper">
+                <div class="row">
+                    <div class="col mb-4">
+                        <h3 class="font-weight">Edit News - Some text from title goes here....</h3>
+                    </div>
+                </div>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-4">
+                                {{ form.news_type(class="form-select")}}
+                                {{ form.news_type.label}}
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6 text-end">
+                            <span class="badge rounded-pill bg-warning text-dark">Not Published</span>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            {% if form.title.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.title(class="form-control is-invalid") }}
+                                    {{ form.title.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.title.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.title(class="form-control", placeholder="Provide your Title") }}
+                                    {{ form.title.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="col-md">
+                        {% if form.content.errors %}
+                            <div class="form-floating mb-4">
+                                {{ form.content(class="form-control is-invalid") }}
+                                {{ form.content.label(for="") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.content.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="form-floating mb-4">
+                                {{ form.content(class="form-control", style="height: 200px", placeholder="Provide your Content") }}
+                                {{ form.content.label(for="") }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md">
+                            {% if form.auto_publish_start_date.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.auto_publish_start_date(class="form-control is-invalid") }}
+                                    {{ form.auto_publish_start_date.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.auto_publish_start_date.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.auto_publish_start_date(class="form-control") }}
+                                    {{ form.auto_publish_start_date.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md">
+                            {% if form.auto_publish_end_date.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.auto_publish_end_date(class="form-control is-invalid") }}
+                                    {{ form.auto_publish_end_date.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.auto_publish_end_date.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating  mb-4">
+                                    {{ form.auto_publish_end_date(class="form-control") }}
+                                    {{ form.auto_publish_end_date.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            {% if form.upload.errors %}
+                                <div class="input-group mb-4">
+                                    {{ form.upload(class="form-control is-invalid") }}
+                                    <label class="input-group-text" for=""><i class="fas fa-file-upload"></i></label>
+                                    <div class="invalid-feedback">
+                                        {% for error in form.upload.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="input-group mb-4">
+                                    {{ form.upload(class="form-control") }}
+                                    <label class="input-group-text" for=""><i class="fas fa-file-upload"></i></label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% if form.additional_link.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.additional_link(class="form-control is-invalid") }}
+                                    {{ form.additional_link.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.additional_link.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.additional_link(class="form-control", placeholder="link") }}
+                                    {{ form.additional_link.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if form.tags.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.tags(class="form-control is-invalid") }}
+                                    {{ form.tags.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.tags.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.tags(class="form-control", placeholder="tags") }}
+                                    {{ form.tags.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col my-3">
+                            {% if form.additional_information.errors %}
+                                <div class="form-floating">
+                                    {{ form.additional_information(class="form-control is-invalid") }}
+                                    {{ form.additional_information.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.additional_information.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating">
+                                    {{ form.additional_information(class="form-control", placeholder="additional_information",
+                                    style="height: 70px") }}
+                                    {{ form.additional_information.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-4">
+                            {% if news.is_active %}
+                                <a href="{{url_for('news.unpublish_news', news_id=news.news_id)}}" class="btn btn-outline-danger">Unpublish News</a>
+                            {% else %}
+                                <button type="button" class="btn btn-outline-secondary custom-btn-primary" id="publish-button">Publish News</button>
+                            {% endif %}
+                        </div>
+                        <div class="col text-end mb-4">
+                            <a href="{{url_for('news.news_listing')}}" class="btn btn-outline-secondary mx-3">Cancel</a>
+                            <!-- {{ form.update(class="btn btn-secondary custom-btn-primary")}} -->
+                            <button class="btn btn-secondary custom-btn-primary" id="submit-button">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %} 
+    <script type="text/javascript" src="{{url_for('static',filename='jaltra/js/editnews.js')}}"></script>
+    <script>
+    $("#publish-button").click(function(){
+            
+        if($("#news_type").val()==="--select--"){
+            $("#news_type").addClass("is-invalid");
+        $('#news_type').focus();
+        return false;
+        }
+        if($("#title").val().length==""){
+                $("#title").addClass("is-invalid");
+            $('#title').focus();
+            return false;
+        }
+        if($("#content").val().length==""){
+                $("#content").addClass("is-invalid");
+            $('#content').focus();
+            return false;
+        }
+        window.location.href=window.location.origin+'/news-publish-news'+'/{{news.news_id}}';
+    });
+
+    </script>
+{% endblock %}

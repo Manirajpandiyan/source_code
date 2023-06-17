@@ -1,0 +1,179 @@
+{% extends "admin/admin_base_template.html" %}
+{% block title %}Edit guide{% endblock %}
+{% block main %}
+    <div class="content_wrapper mt-4">
+        <div class="container">
+            <div class="form_wrapper">
+                <div class="row">
+                    <div class="col mb-4">
+                        <h3 class="font-weight">Edit Guide</h3>
+                    </div>
+                </div>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                     {{form.guide_id(style="display:none",value=form.guide_id.data)}}
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% if form.link_to.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.link_to(class="form-select is-invalid") }}
+                                    {{ form.link_to.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.link_to.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.link_to(class="form-select")}}
+                                    {{ form.link_to.label}}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-3">
+                            {% if form.guide_type.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.guide_type(class="form-select is-invalid") }}
+                                    {{ form.guide_type.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.guide_type.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.guide_type(class="form-select")}}
+                                    {{ form.guide_type.label}}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            {% if form.title.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.title(class="form-control is-invalid") }}
+                                    {{ form.title.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.title.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.title(class="form-control", placeholder="Provide your Title") }}
+                                    {{ form.title.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        {% if form.content.errors %}
+                            <div class="form-floating mb-4">
+                                {{ form.content(class="form-control is-invalid") }}
+                                {{ form.content.label(for="") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.content.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="form-floating mb-4">
+                                {{ form.content(class="form-control", style="height: 200px", placeholder="Provide your Content") }}
+                                {{ form.content.label(for="") }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            {% if form.files.errors %}
+                                {% if guide.has_file_attached %}
+                                    <div class="mb-3">
+                                        <i class="fa fa-file" style="font-size:48px;"></i>
+                                        {{guide.file_path}}
+                                    </div>
+                                {% endif %}
+                                <div class="input-group mb-4">
+                                    {{ form.files(class="form-control is-invalid") }}
+                                    <label class="input-group-text" for=""><i class="fas fa-file-upload"></i></label>
+                                    <div class="invalid-feedback">
+                                        {% for error in form.files.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% if guide.has_file_attached %}
+                                    <div class="mb-2">
+                                        <i class="far fa-file-alt" style="font-size:48px;"></i>
+                                        <span class="mx-2">{{guide.file_path}}</span>
+                                    </div>
+                                {% endif %}
+                                <div class="input-group mb-4">
+                                    {{ form.files(class="form-control") }}
+                                    <label class="input-group-text" for=""><i class="fas fa-file-upload"></i></label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% if form.additional_link.errors %}
+                                <div class="form-floating mb-4">
+                                    {{ form.additional_link(class="form-control is-invalid") }}
+                                    {{ form.additional_link.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.additional_link.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating mb-4">
+                                    {{ form.additional_link(class="form-control", placeholder="link") }}
+                                    {{ form.additional_link.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col my-3">
+                            {% if form.additional_information.errors %}
+                                <div class="form-floating">
+                                    {{ form.additional_information(class="form-control is-invalid") }}
+                                    {{ form.additional_information.label(for="") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.additional_information.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="form-floating">
+                                    {{ form.additional_information(class="form-control", placeholder="additional_information",
+                                    style="height: 70px") }}
+                                    {{ form.additional_information.label(for="") }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-end mb-4">
+                            <a href="{{url_for('news.guide_listing')}}" class="btn btn-outline-secondary mx-3">Cancel</a>
+                        <button class="btn btn-secondary custom-btn-primary" id="submit-button">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %} 
+    <script type="text/javascript" src="{{url_for('static',filename='jaltra/js/editguide.js')}}"></script>
+{% endblock %}

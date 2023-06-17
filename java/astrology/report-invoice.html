@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="description"
+      content= "Platform Astrologer Management view of Astrologer Names 'xyz' on our website and payment details">
+      <!-- Keyword -->
+      <meta name="keywords" content="Lauela | platform Admin | Astrologer Management | view Astrologer">
+      <meta name="robots" content="index, follow">
+      <!-- Google / Search Engine Tags Start-->
+      <meta itemprop="name" content="Lauela | platform Admin | Astrologer Management | view Astrologer">
+      <meta itemprop="description"
+          content="Platform Astrologer Management view of Astrologer Names 'xyz' on our website  and payment details">
+      <meta itemprop="image" content="/resources/assets/images/backgroundimage.w">
+      <!-- Google / Search Engine Tags End-->
+      <!-- Facebook Meta Tags Start -->
+      <meta property="og:url" content="https://laulea.com">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="Lauela | platform Admin | Astrologer Management">
+      <meta property="og:description"
+          content="Platform Astrologer Management view of Astrologer Names 'xyz' on our website  and payment details">
+      <meta property="og:image" content="/resources/assets/images/background-image.webp">
+      <!-- Facebook Meta Tags End -->
+    
+      <title>Lauela | platform Admin | Astrologer Management | view Astrologer</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/resources/assets/css/bootstrap-min.css" />
+    <!-- Icon CSS -->
+    <link rel="stylesheet" href="/resources/assets/css/icons/IconsCss/all.css" />
+    <!-- App CSS -->
+    <link rel="stylesheet" href="/resources/assets/css/app.css" />
+    <!-- Media CSS -->
+    <link rel="stylesheet" href="/resources/assets/css/media.css" />
+    <!-- Talk to Astrologer Profile View CSS -->
+    <link rel="stylesheet" href="/resources/assets/css/talk-to-astrologer-profile-view.css" />
+    <!-- Table Css -->
+    <link rel="stylesheet" href="/resources/assets/css/table.css">
+    <!-- Bootstrap JS -->
+    <script src="/resources/assets/js/bootstrap-bundle.js"></script>
+    <!-- Header Footer JS -->
+    <script src="/resources/assets/js/header-footer.js"></script>
+  </head>
+  
+
+<body>
+  <!-- Navbar -->
+  <main-platformadminnavbar></main-platformadminnavbar>
+
+ <div>
+    <nav class="breadCrumb breadcrumbsDivider" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/resources/templetes/platformAdmin/admin-report.html" id="ReportInvoiceBreadcrumbBtnId">Report</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Invoice
+            </li>
+        </ol>
+    </nav>
+
+ </div>
+
+    <div class="wholeDiv">
+        <!-- Left side Ad Start-->
+        <div class="leftAd">
+            <img src="/resources/assets/images/landing-page-ad1.webp" width="160px" height="600px" alt="" />
+        </div>
+        <!-- Left side Ad End-->
+        <div class="container">
+            <!-- Table Top Heading Start-->
+            <div class="tableHeader">
+                <div class="tableInnerHeader">
+
+                    <div class="tableRightHeader">
+
+                        <div class="filterBtn d-flex justify-content-center align-items-center" id="filterBtnId"
+                            data-bs-toggle="modal" data-bs-target="#reportInvocieFilterModal">
+                            <i class="fa fa-solid fa-filter"></i> <span
+                                class="d-none d-sm-none d-md-block">Filter</span>
+                        </div>
+
+                        <!-- Filter Modal Start -->
+                        <div class="modal fade" id="reportInvocieFilterModal" data-bs-backdrop="static" tabindex="-1"
+                            aria-labelledby="filterModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered ">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="FilterModalHeaderId">Filter</h5>
+                                        <button type="button" class="btn-close" id="ReportInvoiceoModalCancelBtnId" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form id="invoiceFilterFormId">
+                                        <div class="modal-body">
+                                            <div class="container">
+                                                <div>
+                                                    <label for="transactionDate">Astrologer Name</label>
+                                                    <input type="text" class="form-control mt-2" name="transactionDate"
+                                                        id="transactionDateId" aria-label="transactionDate" />
+                                                </div>
+                                                <div class="mt-2">
+                                                    <label for="transactionDate">Transaction Date From</label>
+                                                    <input type="date" class="form-control mt-2" name="transactionDate"
+                                                        id="transactionDateId" aria-label="transactionDate" />
+
+                                                </div>
+                                                <div class="mt-2">
+                                                    <label for="transactionDate">Transaction Date To</label>
+                                                    <input type="date" class="form-control mt-2" name="transactionDate"
+                                                        id="transactionDateId" aria-label="transactionDate" />
+
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <a href="/resources/templetes/platformAdmin/report-invoice.html"><button
+                                                type="button" id="invoiceReportFilterBackBtnId" class="cancelBtn">
+                                                Cancel
+                                            </button></a>
+                                        <a href="/resources/templetes/platformAdmin/report-invoice.html"> <button
+                                                type="button" id="inoviceReportFilterResetBtnId" class="resetBtn">
+                                                Reset
+                                            </button></a>
+                                        <a href="/resources/templetes/platformAdmin/report-invoice.html"><button
+                                                type="button" id="invoiceReportFilterApplyBtnId" class="acceptBtn ">
+                                                Apply
+                                            </button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Filter Modal End -->
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- Table Top Heading End-->
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">S.No.</th>
+                        <th>Astrologer Name</th>
+                        <th>Transaction Number</th>
+                        <th style="width: 120px;">Transaction Date</th>
+                        <th style="width:95px;">Cost</th>
+                        <th>Status</th>
+                        <th style="width: 159px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-column="S.No.">01
+                        </td>
+                        <td data-column="Astrologer Name">Rami Singh
+                        </td>
+                        <td data-column="Transaction Number">8794563278125
+                        </td>
+                        <td data-column="Transaction Date">02/01/2023
+                        </td>
+
+                        <td data-column="Cost"><i class="fas fa-rupee-sign "></i> 160
+                        </td>
+                        <td data-column="Status">Completed
+                        </td>
+                        <td data-column="Action">
+                            <a href="/resources/templetes/platformAdmin/report-invoice-view.html"
+                                class="text-decoration-none text-black" id="ReportInvoiceTableEyeIconId">
+                                <i class='fas fa-eye tableIconFont' id="invoiceReportViewBtnId"></i>
+                            </a>
+                            <a id="ReportInvoiceTableInvoiceIconId">
+                                <i class="fas fa-file-invoice tableIconFont" id="invoiceReportInvoiceBtnId"></i>
+                            </a>
+                            <a data-bs-toggle="modal" data-bs-target="#revertModal" id="ReportInvoiceTableUndoIconId">
+                                <i class="fa fa-undo tableIconFont" id="invoiceReportInvoiceBtnId"></i>
+                            </a>
+
+                        </td>
+                        <!-- Revert Modal Start-->
+                        <div class="modal fade" id="revertModal" tabindex="-1" aria-labelledby="revertModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <form id="revertFormId" action="">
+                                        <div class="text-center">
+                                            <i class="fa fa-undo fs-1 my-4"></i>
+                                            <p class="fs-5">Are you sure you want to revert?</p>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container">
+                                          <label for="rejectionReason">Reason for revert <span class="text-danger">*</span></label>
+                                          <textarea class="form-control mt-2" name="rejectionReason" id="rejectionReasonInputId"></textarea>
+                                        </div>
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn cancelBtn"  id="astrologerManagementNoBtnId"
+                                            data-bs-dismiss="modal">
+                                            No
+                                        </button>
+                                        <button type="button" class="btn acceptBtn" id="astrologerManagementYesBtnId"
+                                            data-bs-dismiss="modal">
+                                            Yes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Revert Modal End-->
+
+
+
+
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="tableHeader">
+                <div class="tableInnerHeader">
+                    <div class="tableLeftHeader">
+                        <label for="rowsPerPage">Records per page</label>
+                        <select class="form-select form-select-sm w-auto" aria-label=".form-select-sm example" name="">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                            <option value="36">15</option>
+                        </select>
+                    </div>
+                    <div class="tableRightHeader">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination m-0 p-0">
+                                <li class="page-item">
+                                    <a class="page-link text-decoration-none text-black" href="#" id="ReportInvoicePaginationPreviousBtnId" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link text-decoration-none text-black" id="ReportInvoicePaginationNxt1Id"
+                                        href="#">1</a></li>
+                                <li class="page-item"><a class="page-link text-decoration-none text-black" id="ReportInvoicePaginationNxt2Id"
+                                        href="#">2</a></li>
+                                <li class="page-item"><a class="page-link text-decoration-none text-black" id="ReportInvoicePaginationNxt3Id"
+                                        href="#">3</a></li>
+                                <li class="page-item"><a class="page-link text-decoration-none text-black" id="ReportInvoicePaginationNxt4Id"
+                                        href="#">4</a></li>
+                                <li class="page-item">
+                                    <a class="page-link text-decoration-none text-black" href="#" aria-label="Next" id="ReportInvoicePaginationNextBtnId">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right side Ad Start-->
+        <div class="rightAd">
+            <img src="/resources/assets/images/landing-page-ad1.webp" width="160px" height="600px" alt="" />
+        </div>
+        <!-- Right side Ad End-->
+    </div>
+    <div class="bottomDiv">
+
+    </div>
+
+
+  <!-- Logout -->
+  <main-logout></main-logout>
+  <!-- Footer -->
+  <main-copyrights></main-copyrights>
+</body>
+
+</html>

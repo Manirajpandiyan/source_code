@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>KCC Society Management</title>
+	<link rel="stylesheet" href="/resources/assets/css/bootstrap.min.css">
+	<script src="/resources/assets/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/resources/assets/css/Table.css">
+	<link rel="stylesheet" href="/resources/assets/css/HeaderFooter.css">
+	<link rel="stylesheet" href="/resources/assets/css/icons/font-awesome.min.css">
+</head>
+
+<body>
+	<div th:replace="fragments/topNavbar :: navbar"></div>
+	<form name="editSociety" id="editSocietyForm" action="/society/editSocietyPost" method="POST">
+		<div class="container mt-4" style="padding-top:60px ;">
+			<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/admin/society/societyList"><span
+								th:text="#{society.management}" /></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+							th:text="#{edit.society}" /></li>
+				</ol>
+			</nav>
+			<h4 style="text-align: center;"><span th:text="#{edit.society}" /></h4>
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="state" class="inputLabel"><span th:text="#{state}" /> <span style="color: red;">*</span>
+					</label>
+					<select class="form-select" id="state" name="stateId" aria-label="Default select example"
+						onchange="fnStateChange()">
+						<option value="0" selected>---Select---</option>
+						<div th:if="${stateList != null and !stateList.empty}">
+							<div th:each="state,iter : ${stateList}">
+								<option th:value="${state.stateId}" th:id="'state-'+${state.stateId}"><span
+										th:text="${state.stateNameInEn}" /> &nbsp;(<span
+										th:text="${state.stateNameInTa}" />) </option>
+							</div>
+						</div>
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'stateId')}"
+						th:text="${errorMap.get('stateId')}"></div>
+
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="zone" class="input-label"><span th:text="#{zone}" /> <span
+							style="color: red;">*</span></label>
+					<select class="form-select" id="zone" name="zoneId" aria-label="Default select example"
+						onchange="fnZoneChange()">
+						<option value="0" selected>---Select---</option>
+					</select>
+
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'zoneId')}"
+						th:text="${errorMap.get('zoneId')}"></div>
+				</div>
+			</div>
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="district" class="input-label"><span th:text="#{district}" /> <span
+							style="color: red;">*</span></label>
+					<select class="form-select" id="district" name="districtId" aria-label="Default select example"
+						onchange="fnDistrictChange()">
+						<option value="0" selected>---Select---</option>
+
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'districtId')}"
+						th:text="${errorMap.get('districtId')}"></div>
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="circle" class="input-label"><span th:text="#{circle}" /></span> <span
+							style="color: red;">*</span></label>
+					<select onchange="fnCircleChange()" class="form-select" id="circle" name="circleId"
+						aria-label="Default select example">
+						<option value="0" selected>---Select---</option>
+
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'circleId')}"
+						th:text="${errorMap.get('circleId')}"></div>
+				</div>
+			</div>
+			<div class="row  justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="block" class="input-label"><span th:text="#{block}" /> <span
+							style="color: red;">*</span></label>
+					<select class="form-select" id="block" name="blockId" aria-label="Default select example"
+						onchange="fnBlockChange()">
+						<option value="0" selected>---Select---</option>
+
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'blockId')}"
+						th:text="${errorMap.get('blockId')}"></div>
+
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="village" class="inputLabel"><span th:text="#{village}" /> <span
+							style="color: red;">*</span></label>
+					<select class="form-select" id="village" name="villageId" aria-label="Default select example">
+						<option value="0" selected>---Select---</option>
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'villageId')}"
+						th:text="${errorMap.get('villageId')}"></div>
+				</div>
+			</div>
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="address" class="inputLabel"><span th:text="#{address}" /><span
+							style="color: red;">*</span></label>
+					<div class="input-group">
+						<input type="text" id="address" name="address" class="form-control" placeholder=""
+							aria-label="Address" th:value="${null != society ? society.address:''}">
+					</div>
+						<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'address')}"
+						th:text="${errorMap.get('address')}"></div>
+
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="societyCode" class="inputLabel"><span th:text="#{society.code}" /> <span
+							style="color: red;">*</span></label>
+					<div class="input-group">
+						<input type="text" id="societyCode" name="societyCode" class="form-control" placeholder=""
+							aria-label="Society Code" th:value="${society!=null?society.societyCode:''}">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'societyCode')}"
+						th:text="${errorMap.get('societyCode')}"></div>
+				</div>
+
+			</div>
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="societyName" class="inputLabel"><span th:text="#{society.name.in.en}" /><span
+							style="color: red;">*</span></label>
+					<div class="input-group">
+						<input type="text" id="societyNameInEn" name="societyNameInEn" class="form-control"
+							placeholder="" th:value="${null != society ? society.societyNameInEn:''}"
+							aria-label="Society Code">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'societyNameInEn')}"
+						th:text="${errorMap.get('societyNameInEn')}"></div>
+
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="societyName" class="inputLabel"><span th:text="#{society.name.in.ta}" /><span
+							style="color: red;">*</span></label>
+					<div class="input-group">
+						<input type="text" id="societyNameInTa" name="societyNameInTa" class="form-control"
+							placeholder="" aria-label="Society Code"
+							th:value="${null != society ? society.societyNameInTa:''}">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'societyNameInTa')}"
+						th:text="${errorMap.get('societyNameInTa')}"></div>
+				</div>
+
+			</div>
+
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="maxNumOfSurety" class="inputLabel"><span
+							th:text="#{max.no.of.surety.given.by.person}" /><span style="color: red;">*</span></label>
+					<select class="form-select" id="maxNumOfSurety" name="maxNumOfSurety"
+						aria-label="Default select example">
+						<option value="0" selected>---Select---</option>
+						<option value="1" th:id="'1-'">1</option>
+						<option value="2" th:id="'2-'">2</option>
+						<option value="3" th:id="'3-'">3</option>
+						<option value="4" th:id="'4-'">4</option>
+						<option value="5" th:id="'5-'">5</option>
+						<option value="6" th:id="'6-'">6</option>
+						<option value="7" th:id="'7-'">7</option>
+						<option value="8" th:id="'8-'">8</option>
+						<option value="9" th:id="'9-'">9</option>
+						<option value="10" th:id="'10-'">10</option>
+					</select>
+						<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'maxNumOfSurety')}"
+						th:text="${errorMap.get('maxNumOfSurety')}"></div>
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="secretary" class="inputLabel"><span th:text="#{secretary}" /><span
+							style="color: red;">*</span></label>
+					<select class="form-select" id="societySecretaryId" onChange="societySecretaryChange()" name="societySecretaryId"
+						aria-label="Default select example">
+						<option id="societySecretaryId-0" value="0" selected>---Select---</option>
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'societySecretaryId')}"
+						th:text="${errorMap.get('societySecretaryId')}"></div>
+				</div>
+
+			</div>
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="fieldManager" class="inputLabel"><span th:text="#{field.manager}" /><span
+							style="color: red;">*</span></label>
+					<select class="form-select" id="fieldManagerId" name="fieldManagerId"
+						aria-label="Default select example">
+						<option value="0" selected >---Select---</option>
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'fieldManagerId')}"
+						th:text="${errorMap.get('fieldManagerId')}"></div>
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="societyUser" class="inputLabel"><span th:text="#{society.user}" /><span
+							style="color: red;">*</span></label>
+					<select class="form-select" id="societyUserId" name="societyUserId"
+						aria-label="Default select example">
+						<option value="0" selected>---Select---</option>
+					</select>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'societyUserId')}"
+						th:text="${errorMap.get('societyUserId')}"></div>
+				</div>
+			</div>
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="presidentNameInEn" class="inputLabel"><span th:text="#{president.name.in.en}" /><span
+							style="color: red;">*</span></label>
+					<div class="input-group">
+						<input type="text" id="presidentNameInEn" name="presidentNameInEn" class="form-control"
+							placeholder="" aria-label="President name"
+							th:value="${null != society ? society.presidentNameInEn:''}">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'presidentNameInEn')}"
+						th:text="${errorMap.get('presidentNameInEn')}"></div>
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="presidentNameInTa" class="inputLabel"><span th:text="#{president.name.in.ta}" /><span
+							style="color: red;">*</span></label>
+					<div class="input-group">
+						<input type="text" id="presidentNameInTa" name="presidentNameInTa" class="form-control"
+							placeholder="" aria-label="President name"
+							th:value="${null != society ? society.presidentNameInTa:''}">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'presidentNameInTa')}"
+						th:text="${errorMap.get('presidentNameInTa')}"></div>
+				</div>
+			</div>
+
+			<div class="row mt-2 justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="appraiserNameEn" class="inputLabel"><span th:text="#{appraiser.name.in.en}" /><span
+							style="color: red">*</span></label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="appraiserNameInEn" name="appraiserNameInEn"
+							placeholder="" aria-label="appraiserNameInEn"
+							th:value="${society!=null?society.appraiserNameInEn:''}">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'appraiserNameInEn')}"
+						th:text="${errorMap.get('appraiserNameInEn')}"></div>
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="appraiserName" class="inputLabel"><span th:text="#{appraiser.name.in.ta}" /><span
+							style="color: red">*</span></label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="appraiserNameInTa" name="appraiserNameInTa"
+							placeholder="" aria-label="appraiserNameInTa"
+							th:value="${null != society ? society.appraiserNameInTa:''}">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'appraiserNameInTa')}"
+						th:text="${errorMap.get('appraiserNameInTa')}"></div>
+
+				</div>
+
+			</div>
+			<div class="row justify-content-around">
+				<div class="col-md-4 mt-2">
+					<label for="allowedAmtPerGram" class="inputLabel"><span th:text="#{allowed.amount.per.gram}" /><span
+							style="color: red;">*</span></label>
+					<div class="input-group">
+						<input type="text" class="form-control" maxlength="7" id="maxAmountPerGramOfGold"
+							name="maxAmountPerGramOfGold" placeholder="" aria-label="President name"
+							th:value="${society!=null? #numbers.formatDecimal(society.maxAmountPerGramOfGold, 1, 2):''}">
+					</div>
+					<div style="text-align:left; color:red"
+						th:if="${null != errorMap and #maps.containsKey(errorMap, 'maxAmountPerGramOfGold')}"
+						th:text="${errorMap.get('maxAmountPerGramOfGold')}"></div>
+
+				</div>
+				<div class="col-md-4 mt-2">
+					<label for="deputation" class="inputLabel"><span th:text="#{deputation}" /></label>
+					<select class="form-select" id="deputationSecretaryId"  name="deputationSecretaryId"
+						aria-label="Default select example">
+						<option value="0" selected>---Select---</option>
+					</select>
+
+				</div>
+			</div>
+
+			<input type="hidden" name="societyId" id="societyId" th:value="${society.societyId}" />
+
+			<div class="ScaleBtnDiv container mt-3">
+			<a style="text-decoration: none;color:white" href="/admin/society/societyList">
+				<button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal"><span th:text="#{cancel}" /></button></a>
+			<a style="text-decoration: none;color:white" onclick="document.getElementById('editSocietyForm').submit();">	
+				<button type="button" form="editSocietyForm" class="btn btn-primary save"><span th:text="#{save}" /></button></a>
+			</div>
+		</div>
+	</form>
+	<main-footer></main-footer>
+	<main-header></main-header>
+</body>
+<script src="/resources/assets/js/index.js"></script>
+<script th:inline="javascript">
+
+	var villageObj = /*[[${villageList}]]*/ "0";
+	var zoneListObj = /*[[${zoneList}]]*/ "0";
+	var districtListObj = /*[[${districtList}]]*/ "0";
+	var circleListObj = /*[[${circleList}]]*/ "";
+	var blockListObj = /*[[${blockList}]]*/ "";
+	var societyObj = /*[[${society}]]*/ "";
+	var userListObj = /*[[${userList}]]*/ "";
+	var editSociety = /*[[${society}]]*/ "0";
+	var societyListObj=/*[[${societyList}]]*/ "";
+
+	var fieldManagerValues = userListObj.filter(function (item) {
+		return item.roleId == 2;
+	})
+
+	if (null != fieldManagerValues) {
+		for (var i = 0; i < fieldManagerValues.length; i++) {
+			option = document.createElement('option');
+			option.id = 'fieldManagerId-' + fieldManagerValues[i].userId;
+			option.innerHTML = fieldManagerValues[i].nameInEn + " (" + fieldManagerValues[i].nameInTa + ")";
+			option.value = fieldManagerValues[i].userId;
+			document.getElementById("fieldManagerId").appendChild(option);
+		}
+
+	}
+
+	var secretartValues = userListObj.filter(function (item) {
+		return item.roleId == 3;
+	})
+	
+		
+	if (null != secretartValues) {
+		var societySecretaryId=0;
+		for (var i = 0; i < secretartValues.length; i++) {
+			for(var j = 0; j< societyListObj.length; j++){
+				if(societyListObj[j].societySecretaryId==secretartValues[i].userId &&societyListObj[j].societySecretaryId!=editSociety.societySecretaryId ){
+					societySecretaryId+=1;
+				}
+			}
+		if(societySecretaryId==0){
+			option = document.createElement('option');
+			option.id = 'societySecretaryId-' + secretartValues[i].userId;
+			option.innerHTML = secretartValues[i].nameInEn + " (" + secretartValues[i].nameInTa + ")";
+			option.value = secretartValues[i].userId;
+			document.getElementById("societySecretaryId").appendChild(option);
+		}
+		else{
+			societySecretaryId=0;
+		}
+	 }
+  }
+		
+	function societySecretaryChange(){
+		document.getElementById("deputationSecretaryId").value=0;
+        var societySecretaryId=document.getElementById("societySecretaryId").value;
+        if(document.getElementById("deputationSecretaryId").length>1){
+			document.getElementById("deputationSecretaryId").length=1;	
+		}
+			if (null != secretartValues) {
+			   for (var i = 0; i < secretartValues.length; i++) {
+				   if(societySecretaryId!=secretartValues[i].userId){
+			option = document.createElement('option');
+			option.id = 'deputationSecretaryId-' + secretartValues[i].userId;
+			option.innerHTML = secretartValues[i].nameInEn + " (" + secretartValues[i].nameInTa + ")";
+			option.value = secretartValues[i].userId;
+			document.getElementById("deputationSecretaryId").appendChild(option);
+			}
+		 }	
+	 }
+ }
+
+			
+	var societyUserValues = userListObj.filter(function (item) {
+		return item.roleId == 4;
+	})
+
+	
+if (null != societyUserValues) {
+		var societyUserCount=0;
+		for (var i = 0; i < societyUserValues.length; i++) {
+			for(var j = 0; j< societyListObj.length; j++){
+				if(societyListObj[j].societyUserId==societyUserValues[i].userId && societyListObj[j].societyUserId!=editSociety.societyUserId ){
+					societyUserCount+=1;
+				}
+			}
+		if(societyUserCount==0){
+			option = document.createElement('option');
+			option.id = 'societyUserId-' + societyUserValues[i].userId;
+			option.innerHTML = societyUserValues[i].nameInEn + " (" + societyUserValues[i].nameInTa + ")";
+			option.value = societyUserValues[i].userId;
+			document.getElementById("societyUserId").appendChild(option);
+		}
+		else{
+			societyUserCount=0;
+		}
+	 }
+  }
+
+
+
+
+		if(editSociety.maxNumOfSurety!="" && editSociety.maxNumOfSurety!=0)document.getElementById('maxNumOfSurety').value = editSociety.maxNumOfSurety;
+		if(editSociety.fieldManagerId!=0 && editSociety.fieldManagerId!="")document.getElementById('fieldManagerId-' + editSociety.fieldManagerId).selected = true;
+	    if(editSociety.societyUserId!=0 && editSociety.societyUserId!="")document.getElementById('societyUserId-' + editSociety.societyUserId).selected = true; 
+	    if(editSociety.societySecretaryId!=0 && editSociety.societySecretaryId!="")document.getElementById('societySecretaryId-' + editSociety.societySecretaryId).selected = true; 
+		
+		var societySecretaryId=document.getElementById("societySecretaryId").value;
+		if (null != secretartValues) {
+			   for (var i = 0; i < secretartValues.length; i++) {
+				   if(societySecretaryId!=secretartValues[i].userId){
+			option = document.createElement('option');
+			option.id = 'deputationSecretaryId-' + secretartValues[i].userId;
+			option.innerHTML = secretartValues[i].nameInEn + " (" + secretartValues[i].nameInTa + ")";
+			option.value = secretartValues[i].userId;
+			document.getElementById("deputationSecretaryId").appendChild(option);
+			}
+		 }	
+	 } 
+		
+		if(editSociety.stateId!=0) document.getElementById('state-' + editSociety.stateId).selected = true;
+		if (zoneListObj !="0") {
+			for (var i = 0; i < zoneListObj.length; i++) {
+				if (zoneListObj[i].stateId == document.getElementById("state").value) {
+					option = document.createElement('option');
+					option.id = 'zone-' + zoneListObj[i].zoneId;
+					option.innerHTML = zoneListObj[i].zoneNameInEn + " (" + zoneListObj[i].zoneNameInTa + ")";
+					option.value = zoneListObj[i].zoneId;
+					document.getElementById("zone").appendChild(option);
+
+				}
+			}
+		}
+
+		if (districtListObj != "0") {
+			if(editSociety.zoneId!=0)document.getElementById('zone-' + editSociety.zoneId).selected = true;
+			for (var i = 0; i < districtListObj.length; i++) {
+				if (districtListObj[i].zoneId == document.getElementById("zone").value) {
+					option = document.createElement('option');
+					option.id = 'district-' + districtListObj[i].districtId;
+					option.innerHTML = districtListObj[i].districtNameInEn + " (" + districtListObj[i].districtNameInTa + ")";
+					option.value = districtListObj[i].districtId;
+					document.getElementById("district").appendChild(option);
+				}
+			}
+		}
+		
+		if(editSociety.districtId!=0)document.getElementById('district-' + editSociety.districtId).selected = true;
+
+		if (circleListObj != "0") {
+			for (var i = 0; i < circleListObj.length; i++) {
+				if (circleListObj[i].districtId == document.getElementById("district").value) {
+					option = document.createElement('option');
+					option.id = 'circle-' + circleListObj[i].circleId;
+					option.innerHTML = circleListObj[i].circleNameInEn + " (" + circleListObj[i].circleNameInTa + ")";
+					option.value = circleListObj[i].circleId;
+					document.getElementById("circle").appendChild(option);
+
+				}
+			}
+		}
+		
+	if(editSociety.circleId!=0)document.getElementById('circle-' + editSociety.circleId).selected = true;
+
+		if (blockListObj != "0") {
+			for (var i = 0; i < blockListObj.length; i++) {
+				if (blockListObj[i].circleId == document.getElementById("circle").value) {
+					option = document.createElement('option');
+					option.id = 'block-' + blockListObj[i].blockId;
+					option.innerHTML = blockListObj[i].blockNameInEn + " (" + blockListObj[i].blockNameInTa + ")";
+					option.value = blockListObj[i].blockId;
+					document.getElementById("block").appendChild(option);
+
+				}
+			}
+		}
+
+		if (villageObj != "0") {
+			if(editSociety.blockId!=0)document.getElementById('block-' + editSociety.blockId).selected = true;
+
+			for (var i = 0; i < villageObj.length; i++) {
+				if (villageObj[i].blockId == document.getElementById("block").value) {
+					option = document.createElement('option');
+					option.id = 'village-' + villageObj[i].villageId;
+					option.innerHTML = villageObj[i].villageNameInEn + " (" + villageObj[i].villageNameInTa + ")";
+					option.value = villageObj[i].villageId;
+					document.getElementById("village").appendChild(option);
+
+				}
+			}
+		}
+		if(editSociety.villageId!=0)document.getElementById('village-' + editSociety.villageId).selected = true;
+		
+		
+		
+	function fnStateChange() {
+		var option;
+		document.getElementById('zone').options.length = 0;
+		option = document.createElement('option');
+		option.innerHTML = "---Select---";
+		option.value = 0;
+		document.getElementById("zone").appendChild(option);
+
+		for (var i = 0; i < zoneListObj.length; i++) {
+			if (zoneListObj[i].stateId == document.getElementById("state").value) {
+				option = document.createElement('option');
+				option.id = 'zone-' + zoneListObj[i].zoneId;
+				option.innerHTML = zoneListObj[i].zoneNameInEn + " (" + zoneListObj[i].zoneNameInTa + ")";
+				option.value = zoneListObj[i].zoneId;
+				document.getElementById("zone").appendChild(option);
+
+			}
+		}
+	}
+
+	function fnZoneChange() {
+		var option;
+		document.getElementById('district').options.length = 0;
+		option = document.createElement('option');
+		option.innerHTML = "---Select---";
+		option.value = 0;
+		document.getElementById("district").appendChild(option);
+		for (var i = 0; i < districtListObj.length; i++) {
+			if (districtListObj[i].zoneId == document.getElementById("zone").value) {
+				option = document.createElement('option');
+				option.id = 'district-' + districtListObj[i].districtId;
+				option.innerHTML = districtListObj[i].districtNameInEn + " (" + districtListObj[i].districtNameInTa + ")";
+				option.value = districtListObj[i].districtId;
+				document.getElementById("district").appendChild(option);
+
+			}
+		}
+
+	}
+
+	function fnDistrictChange() {
+		var option;
+		document.getElementById('circle').options.length = 0;
+		option = document.createElement('option');
+		option.innerHTML = "---Select---";
+		option.value = 0;
+		document.getElementById("circle").appendChild(option);
+
+		for (var i = 0; i < circleListObj.length; i++) {
+			if (circleListObj[i].districtId == document.getElementById("district").value) {
+				option = document.createElement('option');
+				option.id = 'circle-' + circleListObj[i].circleId;
+				option.innerHTML = circleListObj[i].circleNameInEn + " (" + circleListObj[i].circleNameInTa + ")";
+				option.value = circleListObj[i].circleId;
+				document.getElementById("circle").appendChild(option);
+
+			}
+		}
+
+	}
+
+	function fnCircleChange() {
+		var option;
+		document.getElementById('block').options.length = 0;
+		option = document.createElement('option');
+		option.innerHTML = "---Select---";
+		option.value = 0;
+		document.getElementById("block").appendChild(option);
+
+		for (var i = 0; i < blockListObj.length; i++) {
+			if (blockListObj[i].circleId == document.getElementById("circle").value) {
+				option = document.createElement('option');
+				option.id = 'circle-' + blockListObj[i].blockId;
+				option.innerHTML = blockListObj[i].blockNameInEn + " (" + blockListObj[i].blockNameInTa + ")";
+				option.value = blockListObj[i].blockId;
+				document.getElementById("block").appendChild(option);
+
+			}
+		}
+
+	}
+
+	function fnBlockChange() {
+		var option;
+		document.getElementById('village').options.length = 0;
+		option = document.createElement('option');
+		option.innerHTML = "---Select---";
+		option.value = 0;
+		document.getElementById("village").appendChild(option);
+		for (var i = 0; i < villageObj.length; i++) {
+			if (villageObj[i].blockId == document.getElementById("block").value) {
+				option = document.createElement('option');
+				option.id = 'village-' + villageObj[i].villageId;
+				option.innerHTML = villageObj[i].villageNameInEn + " (" + villageObj[i].villageNameInTa + ")";
+				option.value = villageObj[i].villageId;
+				document.getElementById("village").appendChild(option);
+
+			}
+		}
+	}
+
+	if(editSociety.deputationSecretaryId!=0 && editSociety.deputationSecretaryId!=null) document.getElementById('deputationSecretaryId-' + editSociety.deputationSecretaryId).selected = true;
+
+
+</script>
+
+</html>

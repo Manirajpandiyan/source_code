@@ -1,0 +1,349 @@
+{% extends "admin/admin_base_template.html" %}
+{% block title %}News list{% endblock %}
+{% block main %}
+<div class="content_wrapper mt-4">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col">
+                <h3 class="font-weight">News</h3>
+            </div>
+            <div class="col text-end">
+                <div class="d-inline-block">
+                    {% if search_value %}
+                    <button type="button" class="btn btn-outline-secondary d-none" id="open_search"><i
+                            class="fas fa-search"></i></button>
+                    <form class="d-flex" method="POST">
+                        <div class="input-group me-2">
+                            <input class="form-control " type="search" placeholder="Search" name="search"
+                                aria-label="Search" value="{{search_value}}">
+                            <a href="{{url_for('news.news_listing')}}"><button class="btn btn-outline-secondary"
+                                    type="button" id="close_search"><i class="fas fa-times"></i></button></a>
+                            <button class="btn btn-outline-secondary" type="submit" id=""><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <button type="button" class="btn btn-outline-secondary" id="open_search"><i
+                            class="fas fa-search"></i></button>
+                    <form class="d-flex d-none" method="POST">
+                        <div class="input-group me-2">
+                            <input class="form-control " type="search" placeholder="Search" name="search"
+                                aria-label="Search">
+                            <button class="btn btn-outline-secondary" type="button" id="close_search"><i
+                                    class="fas fa-times"></i></button>
+                            <button class="btn btn-outline-secondary" type="submit" id=""><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+                <div class="dropdown d-inline-block" id="myDropdown">
+                    <form method="POST">
+                        <button class="btn btn-outline-secondary" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li>
+                                <h6 class="dropdown-header">By Status</h6>
+                            </li>
+                            <a class="dropdown-item">
+                                <!-- Default unchecked -->
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="active" name="status-active"
+                                        {{active}}>
+                                    <label class="custom-control-label badge rounded-pill bg-success mx-2"
+                                        for="checkbox1">Active</label>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="inactive"
+                                        name="status-inactive" {{inactive}}>
+                                    <label class="custom-control-label badge rounded-pill bg-danger mx-2"
+                                        for="checkbox2">In Active</label>
+                                </div>
+                            </a>
+                            <div class="text-center mt-2">
+                                <!-- <button class="badge bg-secondary" onclick="onFilterSubmitHandler()">Filter</button> -->
+                                <button type="submit" class="badge bg-secondary">Filter</button>
+                            </div>
+                        </ul>
+                    </form>
+                </div>
+                <!-- <button type="button" class="btn btn-outline-secondary custom-btn-primary">Create New News</button> -->
+                <a href="{{ url_for('news.create_news')}}" class='btn btn-outline-secondary custom-btn-primary'>Create
+                    New News</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th colspan="4">News Title</th>
+                                    <th>Publish Start Date</th>
+                                    <th>Publish End Date</th>
+                                    <th>Publish On</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if search_value or active or inactive %}
+                                {% if news_list %}
+                                {% for news in news_list %}
+                                <tr>
+                                    <td>{{loop.index}}</td>
+                                    <td colspan="4">
+                                        {% if news.news_type=="Flash" %}
+                                        <span class="badge bg-info text-dark me-1">Flash News</span>{{ news.title }}
+                                        {% elif news.news_type=="Website content" %}
+                                        <span class="badge bg-warning text-dark me-1">Website content</span>{{
+                                        news.title }}
+                                        {% else %}{{ news.title }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                    <td>
+                                        {% if news.publish_start_date %}
+                                        {{ news.publish_start_date.strftime("%b %d, %Y") }}
+                                        {% else %}....{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.publish_end_date %}
+                                        {{ news.publish_end_date.strftime("%b %d, %Y") }}
+                                        {% else %}....{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.published_on %}
+                                        {{ news.published_on.strftime("%b %d, %Y") }}
+                                        {% else %}....{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.is_active %}
+                                        <span class="badge rounded-pill bg-success">Active</span>
+                                        {% else %}
+                                        <span class="badge rounded-pill bg-danger">InActive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center text-secondary">
+                                        <a href="{{url_for('news.edit_news', news_id=news.news_id)}}"><i
+                                                class="far fa-edit pe-3"></i></a>
+                                        <i class="far fa-eye" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal{{loop.index}}"></i>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="exampleModal{{loop.index}}">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="d-flex bd-highlight">
+                                                    <div class="flex-grow-1">
+                                                        <h5 class="modal-title"
+                                                            id="exampleModalCenteredScrollableTitle">{{news.title}}</h5>
+                                                    </div>
+                                                    <div class="">{% if news.is_active %}<span
+                                                            class="badge rounded-pill bg-success">Active</span>{% else
+                                                        %}<span class="badge rounded-pill bg-danger">In Active</span>{%
+                                                        endif %}</div>
+                                                    <div class=""><button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal" aria-label="Close"></button></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>{{news.content}}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                {% else %}
+                                {% if news_list %}
+                                {% for news in news_list.items %}
+                                <tr>
+                                    <td>{{news_list.page*news_list.per_page-(news_list.per_page)+loop.index}}</td>
+                                    <td colspan="4">
+                                        {% if news.news_type=="Flash" %}
+                                        <span class="badge bg-info text-dark me-1">Flash News</span>{{ news.title }}
+                                        {% elif news.news_type=="Website content" %}
+                                        <span class="badge bg-warning text-dark me-1">Website content</span>{{
+                                        news.title }}
+                                        {% else %}{{ news.title }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.publish_start_date %}
+                                        {{ news.publish_start_date.strftime("%b %d, %Y") }}
+                                        {% else %}....{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.publish_end_date %}
+                                        {{ news.publish_end_date.strftime("%b %d, %Y") }}
+                                        {% else %}....{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.published_on %}
+                                        {{ news.published_on.strftime("%b %d, %Y") }}
+                                        {% else %}....{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.is_active %}
+                                        <span class="badge rounded-pill bg-success">Active</span>
+                                        {% else %}
+                                        <span class="badge rounded-pill bg-danger">InActive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{url_for('news.edit_news', news_id=news.news_id)}}"><i
+                                                class="far fa-edit pe-3"></i></a>
+                                        <i class="far fa-eye" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal{{loop.index}}"></i>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="exampleModal{{loop.index}}">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="d-flex bd-highlight">
+                                                    <div class="flex-grow-1">
+                                                        <h5 class="modal-title"
+                                                            id="exampleModalCenteredScrollableTitle">{{news.title}}</h5>
+                                                    </div>
+                                                    <div class="">{% if news.is_active %}<span
+                                                            class="badge rounded-pill bg-success">Active</span>{% else
+                                                        %}<span class="badge rounded-pill bg-danger">In Active</span>{%
+                                                        endif %}</div>
+                                                    <div class=""><button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal" aria-label="Close"></button></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% for news in news.content.split('/n') %}
+                                                <ul>
+                                                    <p>
+                                                        {% for word in news.split(' ') %}
+                                                        {% if '*' in word %}
+                                                        <b>{{ word.replace('*', '') }}</b>
+                                                        {% else %} {{word}} {% endif %} {% endfor %}
+                                                    </p>
+                                                </ul>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        <!-- pagination for normal render -->
+                        {% if not(search_value or active or inactive) %}
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <p class="mx-2">showing
+                                    {{news_list.page*news_list.per_page-(news_list.per_page)+1}}-{% if
+                                    news_list.page!=news_list.pages %}
+                                    {{news_list.page*news_list.per_page}}{% else %}{{news_list.total}}{% endif %} of
+                                    {{news_list.total}} items
+                                </p>
+                            </div>
+
+                            <div class="col-6">
+                                <nav aria-label="Page navigation" class="mx-2">
+                                    <ul class="pagination justify-content-end">
+                                        {% if news_list.page!=1 %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="{{url_for('news.news_listing', page=news_list.page-1)}}">Previous</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link"
+                                                href="{{url_for('news.news_listing', page=news_list.page-1)}}"
+                                                tabindex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        {% endif %}
+                                        {% for page_num in news_list.iter_pages(left_edge=1, right_edge=1,
+                                        left_current=1, right_current=2) %}
+                                        {% if page_num %}
+                                        {% if page_num==news_list.page %}
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link"
+                                                href="{{url_for('news.news_listing', page=page_num)}}">{{page_num}}</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="{{url_for('news.news_listing', page=page_num)}}">{{page_num}}</a>
+                                        </li>
+                                        {% endif %}
+                                        {% else %}
+                                        <li class="page-item"><a class="page-link" href="">..</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if news_list.page!=news_list.pages %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="{{url_for('news.news_listing', page=news_list.page+1)}}">Next</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link"
+                                                href="{{url_for('news.news_listing', page=news_list.page+1)}}"
+                                                tabindex="-1" aria-disabled="true">Next</a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    // Watch for complete document to be loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        // Once document loaded, get the buttons and add click event listener
+        var search_button = document.getElementById("open_search");
+        var search_form = document.querySelector("form.d-flex");
+        var close_button = document.getElementById("close_search");
+        search_button.addEventListener("click", showSearchField);
+        close_button.addEventListener("click", hideSearchField);
+        // click event listener functions to show and hide the search field
+        function showSearchField(e) {
+            this.classList.toggle("d-none");
+            search_form.classList.toggle("d-none");
+        }
+        function hideSearchField(e) {
+            search_form.classList.toggle("d-none");
+            search_button.classList.toggle("d-none");
+        }
+    });
+</script>>
+{% endblock %}

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="The Reports of the Amount Earned by the Astrologer for various Services along with the Transaction details can be viewed here. ">
+  <!-- Keyword -->
+  <meta name="keywords" content="Lauela | Astrologer | Report | Invoice">
+  <meta name="robots" content="index, follow">
+  <!-- Google / Search Engine Tags Start-->
+  <meta itemprop="name" content="Lauela | Astrologer | Report | Invoice">
+  <meta itemprop="description" content="Platform Report Invoice the sunSign management  and all contents">
+  <meta itemprop="image" content="/resources/assets/images/backgroundimage.w">
+  <!-- Google / Search Engine Tags End-->
+  <!-- Facebook Meta Tags Start -->
+  <meta property="og:url" content="https://laulea.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lauela | Astrologer | Report | Invoice">
+  <meta property="og:description" content="Platform Report  Invoice the sunSign management  and all contents">
+  <meta property="og:image" content="/resources/assets/images/background-image.webp">
+  <!-- Facebook Meta Tags End -->
+
+  <title>Lauela | Invoice Report for the Astrologer Services</title>
+  <link rel="canonical" href="" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/resources/assets/css/bootstrap-min.css" />
+  <!-- Icon CSS -->
+  <link rel="stylesheet" href="/resources/assets/css/icons/IconsCss/all.css" />
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/resources/assets/css/app.css" />
+  <!-- Table CSS -->
+  <link rel="stylesheet" href="/resources/assets/css/table.css" />
+  <!-- Media CSS -->
+  <link rel="stylesheet" href="/resources/assets/css/media.css">
+  <!-- Bootstrap JS -->
+  <script src="/resources/assets/js/bootstrap-bundle.js"></script>
+  <!-- Header Footer JS -->
+  <script src="/resources/assets/js/header-footer.js"></script>
+</head>
+
+<body>
+  <!-- Astrologer header -->
+  <main-astrologerheader></main-astrologerheader>
+  <!-- breadcrumb div -->
+  <div>
+    <nav class="breadCrumb breadcrumbsDivider"  aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/resources/templetes/astrologer/report.html" id="InvoiceReportReportId">Report</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Invoice
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="wholeDiv">
+    <!-- Left side Ad Start-->
+    <div class="leftAd">
+      <img src="/resources/assets/images/landing-page-ad1.webp" title="googleLeftAd" draggable="false" width="160px" height="600px" alt="" />
+    </div>
+    <!-- Left side Ad End-->
+    <div class="container">
+      <!-- Table Top Heading Start-->
+      <div class="tableHeader">
+        <div class="tableInnerHeader">
+          <div class="tableLeftHeaderLong">
+            <div class="container">
+              <div class="row d-flex justify-content-between">
+                <div class="col-md-4">
+                  <label for="totalEarnings"><b>Total Earnings</b></label>
+                  <input type="text" class="form-control mt-2" id="totalEarningsId" name="totalEarnings"
+                    aria-label="totalEarnings"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="amountPaid"><b>Amount Paid</b></label>
+                  <input type="text" class="form-control mt-2" id="amountPaidId" name="amountPaidId"
+                    aria-label="amountPaid"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="balance"><b>Amount Unpaid</b></label>
+                  <input type="text" class="form-control mt-2" id="balanceId" name="balance" aria-label="balance"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tableRightHeaderShort">
+
+            <div class="filterBtn d-flex justify-content-center align-items-center" id="filterBtnId" data-bs-toggle="modal" data-bs-target="#filterModal">
+              <i class="fa fa-solid fa-filter"></i> <span class="d-none d-sm-none d-md-block">Filter</span>
+            </div>
+
+
+
+            <!-- Filter Modal Start -->
+            <div class="modal fade" id="filterModal" data-bs-backdrop="static" tabindex="-1"
+              aria-labelledby="filterModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="FilterModalHeaderId">Filter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form id="invoiceFilterFormId">
+                    <div class="modal-body">
+                      <div class="container">
+                        <div>
+                          <label for="PaymentTransactionDate">Payment Transaction Date</label>
+                          <input type="date" class="form-control mt-2" name="Payment Transaction Date" id="Payment Transaction DateId"
+                            aria-label="Payment Transaction Date"/>
+                        </div>
+                        <div class="mt-2">
+                          <label for="status">Status</label>
+                          <select id="statusSelectId" class="form-select mt-2" aria-label="filterModalStatus">
+                            <option value="completed">Completed</option>
+                            <option value="reverted">Reverted</option>
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="modal-footer">
+                    <button type="button" id="invoiceReportFilterBackBtnId" data-bs-dismiss="modal" class="cancelBtn">
+                      Cancel
+                    </button>
+                    <button type="button" id="inoviceReportFilterResetBtnId" data-bs-dismiss="modal" class="resetBtn">
+                      Reset
+                    </button>
+                    <button type="button" id="invoiceReportFilterApplyBtnId" class="acceptBtn ">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Filter Modal End -->
+          </div>
+        </div>
+      </div>
+      <!-- Table Top Heading End-->
+
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 80px;">S.No.</th>
+            <th>Transaction Number</th>
+            <th>Payment Transaction Date</th>
+            <th>Cost</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-column="S.No.">01
+            </td>
+            <td data-column="Transaction Number">8794563278125
+            </td>
+            <td data-column="Payment Transaction Date">02/01/2023
+            </td>
+            <td data-column="Cost"><i class="fas fa-rupee-sign "></i> 160
+            </td>
+            <td data-column="Status">Completed
+            </td>
+            <td data-column="Action">
+              <a href="view-invoice.html" class="text-decoration-none text-black" id="InvoiceReportEyeBtnId">
+                <i class='fas fa-eye tableIconFont' id="invoiceReportViewBtnId"></i>
+              </a>
+              <a id="InvoiceReportInvoice1BtnId">
+                <i class="fas fa-file-invoice tableIconFont" id="invoiceReportInvoiceBtnId"></i>
+              </a>
+
+            </td>
+
+
+
+
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="tableHeader">
+        <div class="tableInnerHeader rowsPerPageHeader">
+          <div class="tableLeftHeader rowsPerPageLeftHeader">
+            <label for="rowsPerPage" class="rowsPerPage">Records per page</label>
+            <select class="form-select form-select-sm w-auto" aria-label=".form-select-sm example" >
+              <option value="5" selected>5</option>
+              <option value="15">15</option>
+              <option value="25">25</option>
+              <option value="35">35</option>
+              <option value="45">45</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <div class="tableRightHeader">
+            <nav aria-label="Page navigation">
+              <ul class="pagination m-0 p-0">
+                <li class="page-item">
+                  <a class="page-link text-decoration-none text-black" id="FeedBackPerviousBtnId" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link text-decoration-none text-black" id="FeedBackPaginationNxt1Id" href="#">1</a></li>
+                <li class="page-item"><a class="page-link text-decoration-none text-black" id="FeedBackPaginationNxt2Id" href="#">2</a></li>
+                <li class="page-item"><a class="page-link text-decoration-none text-black" id="FeedBackPaginationNxt3Id" href="#">3</a></li>
+                <li class="page-item"><a class="page-link text-decoration-none text-black" id="FeedBackPaginationNxt4Id" href="#">4</a></li>
+                <li class="page-item">
+                  <a class="page-link text-decoration-none text-black" href="#" id="FeedBackNextBtnId" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+    
+    <!-- Right side Ad Start-->
+    <div class="rightAd">
+      <img src="/resources/assets/images/landing-page-ad1.webp" title="googleRightAd" draggable="false" width="160px" height="600px" alt="" />
+    </div>
+    <!-- Right side Ad End-->
+  </div>
+  <div class="bottomDiv">
+
+  </div>
+  <!-- Footer -->
+  <main-copyrights></main-copyrights>
+
+  <!-- Logout -->
+  <main-logout></main-logout>
+
+</body>
+
+</html>

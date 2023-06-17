@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>KCC Circle List</title>
+	<link rel="stylesheet" href="/resources/assets/css/bootstrap.min.css">
+	<script src="/resources/assets/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/resources/assets/css/HeaderFooter.css">
+	<link rel="stylesheet" href="/resources/assets/css/icons/font-awesome.min.css">
+	<link rel="stylesheet" href="/resources/assets/css/Table.css">
+</head>
+
+<body>	
+<div class="margintopdiv" style="margin-bottom: 5%;">
+	 <div th:replace="fragments/topNavbar :: navbar"></div>
+	 <div class="container"  style="padding-top: 1px;">
+   		  <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    	  <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin/regionDashboard"><span th:text="#{region.dashboard}"/></a></li>
+              <li class="breadcrumb-item active" aria-current="page"><span th:text="#{circle.management}"/></li>
+   		  </ol>
+          </nav>
+		<div class="tableHeadinHeaderParent">
+			<div class="tableHeaderSon">
+
+				<h4 class="tabelHeaderHeading"><span th:text="#{circle.management}" /></h4>
+				<div class="addAndFilterBtn">
+					<div class="addAndFilterBtn">
+						<a data-bs-toggle="modal" data-bs-target="#addCircle"
+							style="justify-content: center; display: flex; align-items: baseline;" type="button"
+							class="btn btn-primary">
+							<i class="fa fa-plus" style="font-size:13px"></i><span class="d-none d-sm-none d-md-block">
+								&nbsp; <span th:text="#{circle.add}" /></span></a>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+		<!-- MODEL WINDOW  -->
+		<div class="modal fade" id="addCircle" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static"
+			aria-labelledby="addCircleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+				<div class="modal-content">
+					<form action="/admin/region/addCircle" method="POST" id="addCircleForm" name="addCircleForm">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addCircleModalLabel"><span th:text="#{circle.add}" /></h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="modelClearFunc()"></button>
+						</div>
+						<div class="modal-body">
+							<div>
+								<label for="state" class="input-label"><span th:text="#{state}" /> <span
+										style="color: red;">*</span></label>
+								<select class="form-select" id="state" name="stateId"
+									aria-label="Default select example" onchange="fnStateChange()">
+									<option selected value="0">---Select---</option>
+									<div th:if="${stateList != null and !stateList.empty}">
+										<div th:each="state,iter : ${stateList}">
+											<option th:value="${state.stateId}" th:id="'state-'+${state.stateId}"><span
+													th:text="${state.stateNameInEn}" /> &nbsp;(<span
+													th:text="${state.stateNameInTa}" />) </option>
+										</div>
+									</div>
+								</select>
+								<div style="text-align:left; color:red"
+									th:if="${null != errorMap and #maps.containsKey(errorMap, 'stateId')}"
+									th:text="${errorMap.get('stateId')}"></div>
+							</div>
+							<div>
+								<label for="zone" class="input-label"><span th:text="#{zone}" /> <span
+										style="color: red;">*</span></label>
+								<select class="form-select" id="zone" name="zoneId" aria-label="Default select example"
+									onChange="fnZoneChange()">
+									<option selected value="0">---Select---</option>
+							
+								</select>
+								<div style="text-align:left; color:red"
+									th:if="${null != errorMap and #maps.containsKey(errorMap, 'zoneId')}"
+									th:text="${errorMap.get('zoneId')}"></div>
+							</div>
+							<div>
+								<label for="district" class="input-label"><span th:text="#{district}" /> <span
+										style="color: red;">*</span></label>
+								<select class="form-select" id="district" name="districtId"
+									aria-label="Default select example">
+									<option selected value="0">---Select---</option>
+									
+								</select>
+								<div style="text-align:left; color:red"
+									th:if="${null != errorMap and #maps.containsKey(errorMap, 'districtId')}"
+									th:text="${errorMap.get('districtId')}"></div>
+							</div>
+							<div>
+								<label for="circleEng" class="input-label"><span th:text="#{circle.in.en}" /><span
+										style="color: red;">*</span></label>
+								<div class="input-group">
+									<input type="text" id="circleNameInEn" name="circleNameInEn" class="form-control"
+										placeholder="" th:value="${null != circle ? circle.circleNameInEn:''}">
+								</div>
+								<div style="text-align:left; color:red"
+									th:if="${null != errorMap and #maps.containsKey(errorMap, 'circleNameInEn')}"
+									th:text="${errorMap.get('circleNameInEn')}"></div>
+							</div>
+							<div>
+								<label for="circleTam" class="input-label"><span th:text="#{circle.in.ta}" /><span
+										style="color: red;">*</span></label>
+								<div class="input-group">
+									<input type="text" id="circleNameInTa" name="circleNameInTa" class="form-control"
+										placeholder="" th:value="${null != circle ? circle.circleNameInTa:''}">
+								</div>
+								<div style="text-align:left; color:red"
+									th:if="${null != errorMap and #maps.containsKey(errorMap, 'circleNameInTa')}"
+									th:text="${errorMap.get('circleNameInTa')}"></div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="modelClearFunc()"><span
+									th:text="#{cancel}" /></button>
+							<button type="button" form="addCircleForm" class="btn btn-primary"
+								onclick="document.getElementById('addCircleForm').submit(); "><span
+									th:text="#{add}" /></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div style="text-align:center; color:red; font-weight: bold;" th:if="${error != null}" th:text="${error}"></div>
+		<table>
+			<thead>
+				<tr>
+					<th style="width: 8%;"><span th:text="#{serial.number}" /></th>
+					<th><span th:text="#{state}" /></th>
+					<th><span th:text="#{zone}" /></th>
+					<th><span th:text="#{district}" /></th>
+					<th><span th:text="#{circle}" /></th>
+					<th style="width: 8%;"><span th:text="#{action}" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<div th:if="${circleList != null and !circleList.empty}">
+					<div th:each="circle,iter : ${circleList}">
+						<tr>
+							<td style="text-align: center;" th:data-column='|#{serial.number}|'> <span th:text="${iter.index+1}" /> </td>
+						 <td th:data-column='|#{state}|'> <span th:text="${circle.stateNameInEn}" /> &nbsp;(<span
+									th:text="${circle.stateNameInTa}" />) </td>
+							<td th:data-column='|#{zone}|'><span th:text="${circle.zoneNameInEn}" /> &nbsp;(<span
+									th:text="${circle.zoneNameInTa}" />) </td>
+							 <td th:data-column='|#{district}|'> <span th:text="${circle.districtNameInEn}" /> &nbsp;(<span
+									th:text="${circle.districtNameInTa}" />) </td>
+							<td th:data-column='|#{circle}|'> <span th:text="${circle.circleNameInEn}" /> &nbsp;(<span
+									th:text="${circle.circleNameInTa}" />) </td>
+						<td th:data-column='|#{action}|'>
+								<div><i class="fa fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"
+										th:data-circle="${circle}" th:data-circle-id="${circle.circleId}"
+										th:data-circle-name-en="${circle.circleNameInEn}"
+										th:data-circle-name-ta="${circle.circleNameInTa}" style="font-size: 24px"></i>
+								</div>
+							</td>
+						</tr>
+					</div>
+				</div>
+				<div th:if="${circleList == null or circleList.empty}">
+					<div>
+						<tr>
+							<td colspan="5"> <span th:text="#{no.data.found}" /> </td>
+						</tr>
+					</div>
+				</div>
+			</tbody>
+		</table>
+		<!-- DELETE DIALOG: -->
+			<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<i class="fa fa-trash-o fs-1 mb-4"></i>
+					<p class="fs-5"></p>
+				</div>
+				<form class="modal-content" action="/admin/region/removeCircle" method="POST" id="deleteCircleForm">
+					<input type="hidden" name="circleId" id="deleteCircleId" value="" />
+				</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span th:text="#{no}" /></button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+						onclick="document.getElementById('deleteCircleForm').submit();"><span th:text="#{yes}" /></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<script th:inline="javascript">
+		var appContext = /*[[${APP_CONTEXT}]]*/ ""
+		var circleObj = /*[[${circle}]]*/ "";
+		var zoneListObj = /*[[${zoneList}]]*/ "";
+		var districtListObj = /*[[${districtList}]]*/ "";
+		var errorCount = /*[[${null != errorMap?#maps.size(errorMap):0}]]*/ "0";
+		if(errorCount == 0){
+			document.getElementById("circleNameInEn").value = "";
+			document.getElementById("circleNameInTa").value = "";
+		}
+		if (null != errorCount && errorCount > 0) {
+			if (null != circleObj.stateId && circleObj.stateId > 0) {
+				document.getElementById('state-' + circleObj.stateId).selected = true;
+				for (var i = 0; i < zoneListObj.length; i++) {
+					if (zoneListObj[i].stateId == document.getElementById("state").value) {
+						option = document.createElement('option');
+						option.id = 'zone-' + zoneListObj[i].zoneId;
+						option.innerHTML = zoneListObj[i].zoneNameInEn + " (" + zoneListObj[i].zoneNameInTa + ")";
+						option.value = zoneListObj[i].zoneId;
+						document.getElementById("zone").appendChild(option);
+
+					}
+				}
+			}
+			if (null != circleObj.zoneId && circleObj.zoneId > 0) {
+				document.getElementById('zone-' + circleObj.zoneId).selected = true;
+				for (var i = 0; i < districtListObj.length; i++) {
+					if (districtListObj[i].zoneId == document.getElementById("zone").value) {
+						option = document.createElement('option');
+						option.id = 'district-' + districtListObj[i].districtId;
+						option.innerHTML = districtListObj[i].zoneNameInEn + " (" + districtListObj[i].zoneNameInTa + ")";
+						option.value = districtListObj[i].districtId;
+						document.getElementById("district").appendChild(option);
+					}
+				}
+				
+				if (null != circleObj.districtId && circleObj.districtId > 0) {
+					if(null != document.getElementById('district-' + circleObj.districtId)) document.getElementById('district-' + circleObj.districtId).selected = true;	
+				}
+			}
+
+
+			var addCircleModal = new bootstrap.Modal(document.getElementById('addCircle'), {})
+			addCircleModal.toggle();
+
+			
+
+
+		}
+
+		function fnStateChange() {
+			var option;
+			document.getElementById('zone').options.length = 0;
+			option = document.createElement('option');
+			option.innerHTML = "---Select---";
+			option.value = 0;
+			document.getElementById("zone").appendChild(option);
+			
+			document.getElementById('district').options.length = 0;
+			option = document.createElement('option');
+			option.innerHTML = "---Select---";
+			option.value = 0;
+			document.getElementById("district").appendChild(option);
+
+			for (var i = 0; i < zoneListObj.length; i++) {
+				//console.log("zoneListObj Id===>"+zoneListObj[i].zoneId+"<=== Name-->"+zoneListObj[i].zoneNameInEn+"<==");
+
+
+				if (zoneListObj[i].stateId == document.getElementById("state").value) {
+					option = document.createElement('option');
+					option.id = 'zone-' + zoneListObj[i].zoneId;
+					option.innerHTML = zoneListObj[i].zoneNameInEn + " (" + zoneListObj[i].zoneNameInTa + ")";
+					option.value = zoneListObj[i].zoneId;
+					document.getElementById("zone").appendChild(option);
+
+				}
+			}
+
+		}
+		function fnZoneChange() {
+			var option;
+			document.getElementById('district').options.length = 0;
+			option = document.createElement('option');
+			option.innerHTML = "---Select---";
+			option.value = 0;
+			document.getElementById("district").appendChild(option);
+
+			for (var i = 0; i < districtListObj.length; i++) {
+				
+				if (districtListObj[i].zoneId == document.getElementById("zone").value) {
+					option = document.createElement('option');
+					option.id = 'district-' + districtListObj[i].districtId;
+					option.innerHTML = districtListObj[i].districtNameInEn + " (" + districtListObj[i].districtNameInTa + ")";
+					option.value = districtListObj[i].districtId;
+					document.getElementById("district").appendChild(option);
+				}
+			}
+
+		}	
+		
+		function  modelClearFunc(){
+			document.getElementById("state").value = 0;
+			document.getElementById("zone").value = 0;
+			document.getElementById("district").value = 0;
+			document.getElementById("circleNameInEn").value = "";
+			document.getElementById("circleNameInTa").value = "";
+			window.location.href = "/admin/region/circle";
+		}
+	</script>
+	<main-header></main-header>
+	<main-footer></main-footer>
+</body>
+<script src="/resources/assets/js/index.js"></script>
+<script type="text/javascript">
+	document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
+		var element = event.relatedTarget;
+		document.getElementById('deleteCircleId').value = element.getAttribute('data-circle-id');
+		var msg = deleteModal.querySelector('p.fs-5').innerHTML = "Are you sure you want to delete the circle " + element.getAttribute('data-circle-name-en') + " (" + element.getAttribute('data-circle-name-ta') + ")?";
+	});
+	
+	
+</script>
+
+</html>
